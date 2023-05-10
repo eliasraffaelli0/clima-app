@@ -11,18 +11,20 @@ async function getClimateData(city) {
     const data = await response.json();
 
     displayData(data);
-    console.log(data)
-    console.log(data.current.condition.text)
-    console.log(data.current.temp_c)
-    console.log(data.location.name)
-    console.log(data.location.country)
-    console.log(data.current.feelslike_c)
-    console.log(data.current.humidity)
-    console.log(data.current.wind_kph)
-    
+    let time = new Date(data.location.localtime);    
 }
 
 function displayData(wheatherData) {
+    //this section change the background image if it's night time on the current location
+    let time = new Date(wheatherData.location.localtime);
+    time = time.getHours();
+    if(time > 19 || time < 7){
+        const bgimg = document.getElementById('bg-img');
+        bgimg.style.backgroundImage = 'url(./public/tree-736877.jpg)';
+        document.body.style.color = 'white';
+    }
+
+    //updates the data displayed for the current location
     const description = document.getElementById('description')
     description.innerText = wheatherData.current.condition.text;
     const location = document.getElementById('location');

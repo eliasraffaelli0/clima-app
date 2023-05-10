@@ -1,7 +1,17 @@
-html { 
-    background: url(./public/pexels-photo-2114014.jpeg) no-repeat center center fixed; 
-    /* -webkit-background-size: cover; */
-    /* -moz-background-size: cover; */
-    /* -o-background-size: cover; */
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+#bg-img {
+    /* The image used */
+    background-image: url("./public/pexels-photo-2114014.jpeg");
+
+    /* Full height */
+    height: 100%;
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
     background-size: cover;
 }
