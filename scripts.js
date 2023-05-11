@@ -1,17 +1,26 @@
 window.addEventListener("load", getDefaultClimate)
 const infoDisplay = document.getElementsByClassName('info');
+const form = document.querySelector('form');
+form.addEventListener('submit', fetchUserInput)
 
-//this functions if called when loading the page to show the default location data. I'm using La Plata as default city
+// this functions if called when loading the page to show the default location data. I'm using La Plata as default city
 function getDefaultClimate() {
     getClimateData("la plata")
 }
 
 async function getClimateData(city) {
-    const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=2206b921b0c249c9bc7144329230905&q=${city}&lang=es`, {mode: 'cors'})
-    const data = await response.json();
-
-    displayData(data);
-    let time = new Date(data.location.localtime);    
+    try {
+        // console.log('gt ' + typeof(city));
+        console.log('gt ' + city);
+        
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=2206b921b0c249c9bc7144329230905&q=${city}&lang=es`, {mode: 'cors'})
+        console.log(response.status);
+        const data = await response.json();
+    
+        displayData(data);
+    } catch(error) {
+        console.log(error)
+    }
 }
 
 function displayData(wheatherData) {
@@ -25,16 +34,16 @@ function displayData(wheatherData) {
     }
 
     //updates the data displayed for the current location
-    const description = document.getElementById('description')
-    description.innerText = wheatherData.current.condition.text;
-    const location = document.getElementById('location');
-    location.innerText = `${wheatherData.location.name}, ${wheatherData.location.country}`;
-    const temp = document.getElementById('temp');
-    temp.innerText = `${wheatherData.current.temp_c}°`;
-    const feelslike = document.getElementById('feelslike');
-    feelslike.innerText = `Sensación térmica: ${wheatherData.current.feelslike_c}°`;
-    const humidity = document.getElementById('humidity');
-    humidity.innerText = `Humedad: ${wheatherData.current.humidity}%`;
-    const wind = document.getElementById('wind');
-    wind.innerText = `Viento: ${wheatherData.current.wind_kph} km/h`;
+    document.getElementById('description').innerText = wheatherData.current.condition.text;
+    document.getElementById('location').innerText = `${wheatherData.location.name}, ${wheatherData.location.country}`;
+    document.getElementById('temp').innerText = `${wheatherData.current.temp_c}°`;
+    document.getElementById('feelslike').innerText = `Sensación térmica: ${wheatherData.current.feelslike_c}°`;
+    document.getElementById('humidity').innerText = `Humedad: ${wheatherData.current.humidity}%`;
+    document.getElementById('wind').innerText = `Viento: ${wheatherData.current.wind_kph} km/h`;
+}
+
+function fetchUserInput(e) {
+    e.preventDefault();
+    const input = document.getElementById('user-input').value;
+    getClimateData(input);
 }
